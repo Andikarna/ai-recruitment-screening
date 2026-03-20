@@ -1,0 +1,396 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.API\\AiRecruitment.API.csproj": {}
+  },
+  "projects": {
+    "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.API\\AiRecruitment.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.API\\AiRecruitment.API.csproj",
+        "projectName": "AiRecruitment.API",
+        "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.API\\AiRecruitment.API.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj": {
+                "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj"
+              },
+              "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\AiRecruitment.Infrastructure.csproj": {
+                "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\AiRecruitment.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj",
+        "projectName": "AiRecruitment.Application",
+        "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\AiRecruitment.Domain.csproj": {
+                "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\AiRecruitment.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[14.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\AiRecruitment.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\AiRecruitment.Domain.csproj",
+        "projectName": "AiRecruitment.Domain",
+        "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\AiRecruitment.Domain.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\AiRecruitment.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\AiRecruitment.Infrastructure.csproj",
+        "projectName": "AiRecruitment.Infrastructure",
+        "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\AiRecruitment.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj": {
+                "projectPath": "E:\\Document\\Visual Code\\React JS\\ai-screening-recruitment\\backend\\AiRecruitment.Application\\AiRecruitment.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Azure.AI.OpenAI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[9.0.0-preview.2.efcore.9.0.0, )"
+            },
+            "UglyToad.PdfPig": {
+              "target": "Package",
+              "version": "[1.7.0-custom-5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.11, 9.0.11]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

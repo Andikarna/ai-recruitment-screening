@@ -1,0 +1,15 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  AiRecruitment.Domain -> E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\bin\Debug\net9.0\AiRecruitment.Domain.dll
+  AiRecruitment.Application -> E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\bin\Debug\net9.0\AiRecruitment.Application.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\Services\ResumeParserService.cs(8,7): warning CS0105: The using directive for 'AiRecruitment.Domain.Entities' appeared previously in this namespace [E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\AiRecruitment.Infrastructure.csproj]
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\Services\ResumeParserService.cs(69,21): error CS0826: No best type found for implicitly-typed array [E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\AiRecruitment.Infrastructure.csproj]
+
+Build FAILED.
+
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\Services\ResumeParserService.cs(8,7): warning CS0105: The using directive for 'AiRecruitment.Domain.Entities' appeared previously in this namespace [E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\AiRecruitment.Infrastructure.csproj]
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\Services\ResumeParserService.cs(69,21): error CS0826: No best type found for implicitly-typed array [E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\AiRecruitment.Infrastructure.csproj]
+    1 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:03.30
