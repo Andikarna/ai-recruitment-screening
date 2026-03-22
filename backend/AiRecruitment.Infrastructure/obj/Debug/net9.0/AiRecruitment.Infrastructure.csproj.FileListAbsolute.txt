@@ -11,6 +11,7 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecruitment.Infrastructure.AssemblyInfoInputs.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecruitment.Infrastructure.AssemblyInfo.cs
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecruitment.Infrastructure.csproj.CoreCompileInputs.cache
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecruitment.Infrastructure.sourcelink.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecrui.4ABA87BA.Up2Date
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\AiRecruitment.Infrastructure.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Infrastructure\obj\Debug\net9.0\refint\AiRecruitment.Infrastructure.dll

@@ -21,7 +21,22 @@ public class JobsController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var jobs = await _unitOfWork.JobPostings.GetAllAsync();
-        return Ok(jobs);
+        var applications = await _unitOfWork.JobApplications.GetAllAsync();
+        
+        var result = jobs.Select(j => new 
+        {
+            j.Id,
+            j.Title,
+            j.Description,
+            j.Requirements,
+            j.Location,
+            j.IsActive,
+            j.CreatedAt,
+            j.UpdatedAt,
+            CandidatesCount = applications.Count(a => a.JobPostingId == j.Id && a.Status == "Approved")
+        });
+        
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -29,7 +44,22 @@ public class JobsController : ControllerBase
     {
         var job = await _unitOfWork.JobPostings.GetByIdAsync(id);
         if (job == null) return NotFound();
-        return Ok(job);
+        
+        var applications = await _unitOfWork.JobApplications.GetAllAsync();
+        var candidatesCount = applications.Count(a => a.JobPostingId == id && a.Status == "Approved");
+        
+        return Ok(new 
+        {
+            job.Id,
+            job.Title,
+            job.Description,
+            job.Requirements,
+            job.Location,
+            job.IsActive,
+            job.CreatedAt,
+            job.UpdatedAt,
+            CandidatesCount = candidatesCount
+        });
     }
 
     [HttpPost]

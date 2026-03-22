@@ -22,6 +22,9 @@ public static class DependencyInjection
 
         // Register Resume Parser Service
         services.AddScoped<IResumeParserService, Services.ResumeParserService>();
+        
+        // Register AI Screening Service
+        services.AddScoped<IAIScreeningService, Services.AIScreeningService>();
 
         return services;
     }

@@ -10,11 +10,15 @@ import {
   TrendingUp,
   Brain,
   Briefcase,
-  Users
+  Users,
+  ChevronDown,
+  MapPin,
+  Search
 } from "lucide-react";
 import { CandidateService, Candidate } from "@/services/candidateService";
 import { JobService, JobPosting } from "@/services/jobService";
 import { ScreeningService, ScreeningResult } from "@/services/screeningService";
+import { ApplicationService } from "@/services/applicationService";
 
 export default function ScreeningPage() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -23,8 +27,19 @@ export default function ScreeningPage() {
   const [selectedCandidate, setSelectedCandidate] = useState<string>("");
   const [selectedJob, setSelectedJob] = useState<string>("");
   
+  const [screeningMode, setScreeningMode] = useState<'candidate' | 'cv'>('candidate');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  
+  const [isCandidateDropdownOpen, setIsCandidateDropdownOpen] = useState(false);
+  const [isJobDropdownOpen, setIsJobDropdownOpen] = useState(false);
+  const [candidateSearchQuery, setCandidateSearchQuery] = useState("");
+  const [jobSearchQuery, setJobSearchQuery] = useState("");
+  
   const [isScreening, setIsScreening] = useState(false);
   const [result, setResult] = useState<ScreeningResult | null>(null);
+  
+  const [isSavingDecision, setIsSavingDecision] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"none" | "approved" | "rejected" | "error">("none");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,19 +58,64 @@ export default function ScreeningPage() {
   }, []);
 
   const handleScreening = async () => {
-    if (!selectedCandidate || !selectedJob) return;
+    if (!selectedJob) return;
+    if (screeningMode === 'candidate' && !selectedCandidate) return;
+    if (screeningMode === 'cv' && !uploadedFile) return;
     
     setIsScreening(true);
     setResult(null);
     try {
-      const data = await ScreeningService.screenCandidate(selectedCandidate, selectedJob);
+      let data;
+      if (screeningMode === 'candidate') {
+        data = await ScreeningService.screenCandidate(selectedCandidate, selectedJob);
+      } else {
+        data = await ScreeningService.screenUploadedCv(uploadedFile!, selectedJob);
+      }
       setResult(data);
+      setSaveStatus("none");
     } catch (error) {
       console.error("Screening failed", error);
     } finally {
       setIsScreening(false);
     }
   };
+
+  const handleDecision = async (decision: 'Approved' | 'Rejected') => {
+    if (!result || !selectedJob) return;
+    
+    setIsSavingDecision(true);
+    setSaveStatus("none");
+    try {
+      // For temporary uploaded CVs the candidate ID is usually '0'. Fallback to a placeholder UUID.
+      const candidateIdToUse = result.candidateId && result.candidateId !== '0' ? result.candidateId : "00000000-0000-0000-0000-000000000000";
+
+      await ApplicationService.create({
+        jobPostingId: selectedJob,
+        candidateId: candidateIdToUse,
+        matchScore: result.overallScore,
+        status: decision,
+        aiRecommendation: result.summary
+      });
+      setSaveStatus(decision.toLowerCase() as any);
+    } catch (error) {
+      console.error(`Failed to save application:`, error);
+      setSaveStatus("error");
+    } finally {
+      setIsSavingDecision(false);
+    }
+  };
+
+  const filteredCandidates = candidates.filter(c => 
+    (c.firstName || "").toLowerCase().includes(candidateSearchQuery.toLowerCase()) || 
+    (c.lastName || "").toLowerCase().includes(candidateSearchQuery.toLowerCase()) || 
+    (c.email || "").toLowerCase().includes(candidateSearchQuery.toLowerCase()) ||
+    (c.parsedSkills && c.parsedSkills.toLowerCase().includes(candidateSearchQuery.toLowerCase()))
+  );
+
+  const filteredJobs = jobs.filter(j =>
+    (j.title || "").toLowerCase().includes(jobSearchQuery.toLowerCase()) ||
+    (j.location || "").toLowerCase().includes(jobSearchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
@@ -71,45 +131,229 @@ export default function ScreeningPage() {
         {/* Selection Section */}
         <div className="lg:col-span-2 space-y-6">
           <div className="p-6 rounded-3xl border border-border bg-card shadow-sm space-y-6">
-            <h3 className="font-bold text-foreground text-lg mb-4 flex items-center gap-2">
-              Run Analysis
+            <h3 className="font-bold text-foreground text-lg mb-4 flex items-center justify-between gap-2">
+              <span>Run Analysis</span>
+              <div className="flex gap-2 bg-secondary/50 p-1 rounded-lg">
+                <button 
+                  onClick={() => setScreeningMode('candidate')}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${screeningMode === 'candidate' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  Existing Candidate
+                </button>
+                <button 
+                  onClick={() => setScreeningMode('cv')}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${screeningMode === 'cv' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  Upload CV
+                </button>
+              </div>
             </h3>
 
-            <div className="space-y-2">
+            {screeningMode === 'candidate' ? (
+            <div className={`space-y-2 relative animate-in fade-in ${isCandidateDropdownOpen ? 'z-50' : 'z-10'}`}>
               <label className="text-sm font-semibold text-foreground flex items-center gap-2">
                 <Users size={16} className="text-muted-foreground" /> Select Candidate
               </label>
-              <select 
-                className="w-full p-3 rounded-xl border border-border bg-transparent text-foreground outline-none focus:border-primary transition-colors"
-                value={selectedCandidate}
-                onChange={(e) => setSelectedCandidate(e.target.value)}
+              
+              <div 
+                onClick={() => { 
+                  setIsCandidateDropdownOpen(!isCandidateDropdownOpen); 
+                  setIsJobDropdownOpen(false); 
+                  if (!isCandidateDropdownOpen) setCandidateSearchQuery("");
+                }}
+                className="w-full p-3 rounded-xl border border-border bg-background hover:border-primary/50 cursor-pointer flex items-center justify-between transition-all shadow-sm group"
               >
-                <option value="" disabled>-- Choose a Candidate --</option>
-                {candidates.map(c => (
-                  <option key={c.id} value={c.id}>{c.firstName} {c.lastName}</option>
-                ))}
-              </select>
-            </div>
+                {selectedCandidate ? (
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
+                      {candidates.find(c => c.id === selectedCandidate)?.firstName?.charAt(0)}
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="font-bold text-sm text-foreground leading-tight">
+                        {candidates.find(c => c.id === selectedCandidate)?.firstName} {candidates.find(c => c.id === selectedCandidate)?.lastName}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">
+                        {candidates.find(c => c.id === selectedCandidate)?.email}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground text-sm pl-1">-- Choose a Candidate --</span>
+                )}
+                <ChevronDown size={18} className={`text-muted-foreground transition-transform duration-300 ${isCandidateDropdownOpen ? 'rotate-180 text-primary' : ''}`} />
+              </div>
 
-            <div className="space-y-2">
+              {isCandidateDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setIsCandidateDropdownOpen(false)} />
+                  <div className="absolute z-50 top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+                    <div className="p-3 border-b border-border bg-secondary/50 sticky top-0 z-10">
+                      <div className="relative">
+                        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          autoFocus
+                          type="text"
+                          placeholder="Search candidates by name, email, or skills..."
+                          value={candidateSearchQuery}
+                          onChange={(e) => setCandidateSearchQuery(e.target.value)}
+                          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-background border border-border text-sm outline-none focus:border-primary transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                    </div>
+                    <div className="max-h-64 overflow-y-auto custom-scrollbar p-2 space-y-1">
+                      {filteredCandidates.map(c => (
+                        <button
+                          key={c.id}
+                          onClick={() => { setSelectedCandidate(c.id); setIsCandidateDropdownOpen(false); }}
+                          className={`w-full text-left p-3 rounded-lg flex items-center justify-between transition-all ${selectedCandidate === c.id ? 'bg-primary/10 border-primary/20' : 'hover:bg-secondary/60'} border border-transparent`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-sm transition-colors ${selectedCandidate === c.id ? 'bg-primary text-white' : 'bg-secondary text-foreground'}`}>
+                              {(c.firstName || '?').charAt(0)}{(c.lastName || '').charAt(0)}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className={`font-bold text-sm ${selectedCandidate === c.id ? 'text-primary' : 'text-foreground'}`}>
+                                {c.firstName} {c.lastName}
+                              </span>
+                              <span className="text-[11px] text-muted-foreground line-clamp-1 mt-0.5">
+                                {c.parsedSkills ? c.parsedSkills.substring(0, 45) + (c.parsedSkills.length > 45 ? '...' : '') : c.email}
+                              </span>
+                            </div>
+                          </div>
+                          {selectedCandidate === c.id && <CheckCircle size={18} className="text-primary animate-in zoom-in" />}
+                        </button>
+                      ))}
+                      {candidates.length === 0 && (
+                        <div className="p-6 text-center text-sm text-muted-foreground italic flex flex-col items-center gap-2">
+                          <Users size={24} className="opacity-20" />
+                          {candidates.length === 0 ? "No candidates available" : "No candidates match your search"}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            ) : (
+            <div className="space-y-2 relative animate-in fade-in">
+              <label className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <FileText size={16} className="text-muted-foreground" /> Upload Candidate CV (PDF)
+              </label>
+              <div className="w-full p-4 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 bg-secondary/20 hover:bg-secondary/40 transition-colors">
+                <input 
+                  type="file" 
+                  accept=".pdf" 
+                  onChange={(e) => setUploadedFile(e.target.files?.[0] || null)}
+                  className="hidden" 
+                  id="cv-upload"
+                />
+                <label htmlFor="cv-upload" className="cursor-pointer flex flex-col items-center gap-3 w-full py-4 relative z-10">
+                  <div className="p-4 bg-primary/10 text-primary rounded-full">
+                    <FileText size={28} />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-foreground mb-1">
+                      {uploadedFile ? uploadedFile.name : "Click to upload CV (.pdf)"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {uploadedFile ? `${(uploadedFile.size / 1024 / 1024).toFixed(2)} MB` : "Max size: 5MB"}
+                    </p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            )}
+
+            <div className={`space-y-2 relative ${isJobDropdownOpen ? 'z-50' : 'z-10'}`}>
               <label className="text-sm font-semibold text-foreground flex items-center gap-2">
                 <Briefcase size={16} className="text-muted-foreground" /> Select Job Requirement
               </label>
-              <select 
-                className="w-full p-3 rounded-xl border border-border bg-transparent text-foreground outline-none focus:border-primary transition-colors"
-                value={selectedJob}
-                onChange={(e) => setSelectedJob(e.target.value)}
+
+              <div 
+                onClick={() => { 
+                  setIsJobDropdownOpen(!isJobDropdownOpen); 
+                  setIsCandidateDropdownOpen(false); 
+                  if (!isJobDropdownOpen) setJobSearchQuery("");
+                }}
+                className="w-full p-3 rounded-xl border border-border bg-background hover:border-emerald-500/50 cursor-pointer flex items-center justify-between transition-all shadow-sm group"
               >
-                <option value="" disabled>-- Choose a Job --</option>
-                {jobs.map(j => (
-                  <option key={j.id} value={j.id}>{j.title}</option>
-                ))}
-              </select>
+                {selectedJob ? (
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center ring-2 ring-transparent group-hover:ring-emerald-500/20 transition-all">
+                      <Briefcase size={14} />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="font-bold text-sm text-foreground leading-tight">
+                        {jobs.find(j => j.id === selectedJob)?.title}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                        <MapPin size={10} /> {jobs.find(j => j.id === selectedJob)?.location}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground text-sm pl-1">-- Choose a Job --</span>
+                )}
+                <ChevronDown size={18} className={`text-muted-foreground transition-transform duration-300 ${isJobDropdownOpen ? 'rotate-180 text-emerald-500' : ''}`} />
+              </div>
+
+              {isJobDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setIsJobDropdownOpen(false)} />
+                  <div className="absolute z-50 top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+                    <div className="p-3 border-b border-border bg-emerald-500/5 sticky top-0 z-10">
+                      <div className="relative">
+                        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-600/50 dark:text-emerald-400/50" />
+                        <input
+                          autoFocus
+                          type="text"
+                          placeholder="Search jobs by title or location..."
+                          value={jobSearchQuery}
+                          onChange={(e) => setJobSearchQuery(e.target.value)}
+                          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-background border border-border text-sm outline-none focus:border-emerald-500 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                    </div>
+                    <div className="max-h-64 overflow-y-auto custom-scrollbar p-2 space-y-1">
+                      {filteredJobs.map(j => (
+                        <button
+                          key={j.id}
+                          onClick={() => { setSelectedJob(j.id); setIsJobDropdownOpen(false); }}
+                          className={`w-full text-left p-3 rounded-lg flex items-center justify-between transition-all ${selectedJob === j.id ? 'bg-emerald-500/10 border-emerald-500/20' : 'hover:bg-secondary/60'} border border-transparent`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition-colors ${selectedJob === j.id ? 'bg-emerald-500 text-white' : 'bg-secondary text-muted-foreground'}`}>
+                              <Briefcase size={18} />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className={`font-bold text-sm ${selectedJob === j.id ? 'text-emerald-600 dark:text-emerald-400' : 'text-foreground'}`}>
+                                {j.title}
+                              </span>
+                              <span className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
+                                <MapPin size={10} /> {j.location}
+                              </span>
+                            </div>
+                          </div>
+                          {selectedJob === j.id && <CheckCircle size={18} className="text-emerald-500 animate-in zoom-in" />}
+                        </button>
+                      ))}
+                      {jobs.length === 0 && (
+                        <div className="p-6 text-center text-sm text-muted-foreground italic flex flex-col items-center gap-2">
+                          <Briefcase size={24} className="opacity-20" />
+                          {jobs.length === 0 ? "No jobs available" : "No jobs match your search"}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <button 
               onClick={handleScreening}
-              disabled={!selectedCandidate || !selectedJob || isScreening}
+              disabled={(!selectedJob) || (screeningMode === 'candidate' && !selectedCandidate) || (screeningMode === 'cv' && !uploadedFile) || isScreening}
               className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100"
             >
               {isScreening ? (
@@ -220,13 +464,27 @@ export default function ScreeningPage() {
               </div>
 
               <div className="flex gap-4">
-                <button className="flex-1 py-4 bg-primary text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-95">
-                  Approve Application
+                <button 
+                  onClick={() => handleDecision('Approved')}
+                  disabled={isSavingDecision || saveStatus !== 'none'}
+                  className="flex-1 py-4 bg-primary text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {isSavingDecision && saveStatus === 'none' ? <Loader2 className="animate-spin" size={20} /> : null}
+                  {saveStatus === 'approved' ? <CheckCircle size={20} /> : null}
+                  {saveStatus === 'approved' ? 'Approved!' : 'Approve Application'}
                 </button>
-                <button className="px-6 py-4 border border-border text-foreground rounded-2xl font-bold hover:bg-secondary transition-all active:scale-95">
-                  Reject
+                <button 
+                  onClick={() => handleDecision('Rejected')}
+                  disabled={isSavingDecision || saveStatus !== 'none'}
+                  className="px-6 py-4 border border-border text-foreground rounded-2xl font-bold hover:bg-secondary transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {saveStatus === 'rejected' ? <CheckCircle size={20} /> : null}
+                  {saveStatus === 'rejected' ? 'Rejected' : 'Reject'}
                 </button>
               </div>
+              {saveStatus === 'error' && (
+                <p className="text-red-500 text-sm mt-3 text-center">Failed to save decision. Server might reject CVs without formal DB Profiles.</p>
+              )}
             </div>
           ) : (
             <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center p-8 rounded-3xl border border-border bg-card/30">

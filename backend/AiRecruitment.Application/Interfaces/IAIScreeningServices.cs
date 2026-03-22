@@ -9,4 +9,5 @@ namespace AiRecruitment.Application.Interfaces;
 public interface IAIScreeningService
 {
     Task<ScreeningResultDto> ScreenCandidateAsync(Guid candidateId, Guid jobId);
+    Task<ScreeningResultDto> ScreenCvAsync(string cvText, string fileName, Guid jobId);
 }

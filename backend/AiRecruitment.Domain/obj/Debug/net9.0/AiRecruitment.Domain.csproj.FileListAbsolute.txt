@@ -5,6 +5,7 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.AssemblyInfoInputs.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.AssemblyInfo.cs
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.csproj.CoreCompileInputs.cache
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.sourcelink.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\refint\AiRecruitment.Domain.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Domain\obj\Debug\net9.0\AiRecruitment.Domain.pdb

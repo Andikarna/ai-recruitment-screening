@@ -16,6 +16,10 @@ export default function JobsPage() {
     location: '',
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
   useEffect(() => {
     fetchJobs();
   }, []);
@@ -72,6 +76,8 @@ export default function JobsPage() {
         <Search size={20} className="text-muted-foreground ml-2" />
         <input 
           type="text" 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search jobs by title or location..." 
           className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm"
         />
@@ -89,7 +95,10 @@ export default function JobsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobs.map((job) => (
+          {jobs.filter(job => 
+            job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            job.location.toLowerCase().includes(searchQuery.toLowerCase())
+          ).map((job) => (
             <div key={job.id} className="p-6 bg-card border border-border rounded-2xl hover:border-primary/50 transition-colors group flex flex-col h-full">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2.5 bg-primary/10 text-primary rounded-xl group-hover:bg-primary group-hover:text-white transition-colors">
@@ -118,11 +127,54 @@ export default function JobsPage() {
               </p>
               
               <div className="pt-4 border-t border-border mt-auto flex justify-between items-center">
-                <span className="text-xs font-medium text-muted-foreground">0 Candidates</span>
-                <button className="text-sm font-bold text-primary hover:underline">View Details</button>
+                <span className="text-xs font-medium text-muted-foreground">{job.candidatesCount || 0} Approved Candidates</span>
+                <button 
+                  onClick={() => { setSelectedJob(job); setIsDetailsModalOpen(true); }}
+                  className="text-sm font-bold text-primary hover:underline"
+                >
+                  View Details
+                </button>
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* View Details Modal */}
+      {isDetailsModalOpen && selectedJob && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-card w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center p-6 border-b border-border">
+              <div className="flex flex-col gap-1">
+                <h2 className="text-xl font-bold">{selectedJob.title}</h2>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin size={14} /> {selectedJob.location}
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsDetailsModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <XCircle size={24} />
+              </button>
+            </div>
+            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+              <div className="space-y-2">
+                <h3 className="font-bold text-foreground uppercase text-xs tracking-wider text-muted-foreground">About the role</h3>
+                <p className="text-foreground text-sm whitespace-pre-wrap">{selectedJob.description}</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-bold text-foreground uppercase text-xs tracking-wider text-muted-foreground">Requirements</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedJob.requirements.split(',').map((req, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-lg font-medium border border-border">
+                      {req.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 namespace AiRecruitment.Application.DTOs;
 
 public class ScreeningResultDto
 {
-    public int CandidateId { get; set; }
+    public Guid CandidateId { get; set; }
     public string CandidateName { get; set; } = string.Empty;
     public double OverallScore { get; set; }
     public List<SkillMatchDto> SkillMatches { get; set; } = new();
@@ -20,7 +21,7 @@ public class SkillMatchDto
 
 public class CandidateDto
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

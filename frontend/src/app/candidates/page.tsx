@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { CandidateService, Candidate } from "@/services/candidateService";
-import { Users, Plus, Search, Mail, Phone, Code, FileText, X, Loader2 } from "lucide-react";
+import { Users, Plus, Search, Mail, Phone, Code, FileText, X, Loader2, Trash2, Building, DollarSign } from "lucide-react";
 
 export default function CandidatesPage() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -19,6 +19,11 @@ export default function CandidatesPage() {
     expectedSalary: 0,
     parsedSkills: ""
   });
+  
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchCandidates();
@@ -67,6 +72,36 @@ export default function CandidatesPage() {
     }
   };
 
+  const handleViewDetails = (candidate: Candidate) => {
+    setSelectedCandidate(candidate);
+    setIsDetailsModalOpen(true);
+  };
+
+  const handleDeleteCandidate = async () => {
+    if (!selectedCandidate) return;
+    if (!confirm("Are you sure you want to delete this candidate? This action cannot be undone.")) return;
+    
+    setIsDeleting(true);
+    try {
+      await CandidateService.delete(selectedCandidate.id);
+      setIsDetailsModalOpen(false);
+      setSelectedCandidate(null);
+      fetchCandidates();
+    } catch (error) {
+      console.error("Failed to delete candidate:", error);
+      alert("Failed to delete candidate. Please check your connection.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const filteredCandidates = candidates.filter(c => 
+    (c.firstName || "").toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (c.lastName || "").toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (c.email || "").toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (c.parsedSkills || "").toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto relative">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -87,6 +122,8 @@ export default function CandidatesPage() {
         <Search size={20} className="text-muted-foreground ml-2" />
         <input 
           type="text" 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search candidates by name, email, or skills..." 
           className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm"
         />
@@ -116,7 +153,12 @@ export default function CandidatesPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {candidates.map((candidate) => (
+                {filteredCandidates.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-muted-foreground">No candidates match your search.</td>
+                  </tr>
+                ) : null}
+                {filteredCandidates.map((candidate) => (
                   <tr key={candidate.id} className="hover:bg-secondary/30 transition-colors group">
                     <td className="px-6 py-4 text-sm">
                       <div className="flex items-center gap-3">
@@ -157,11 +199,14 @@ export default function CandidatesPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="font-medium text-foreground bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-lg text-xs">
-                        ${(candidate.expectedSalary || 0).toLocaleString()}
+                        Rp {(candidate.expectedSalary || 0).toLocaleString('id-ID')}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="text-sm font-bold text-primary hover:underline px-3 py-1.5 rounded-lg hover:bg-primary/5 transition-colors">
+                      <button 
+                        onClick={() => handleViewDetails(candidate)}
+                        className="text-sm font-bold text-primary hover:underline px-3 py-1.5 rounded-lg hover:bg-primary/5 transition-colors"
+                      >
                         View Profile
                       </button>
                     </td>
@@ -243,7 +288,7 @@ export default function CandidatesPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-sm font-semibold text-foreground">Expected Salary ($)</label>
+                    <label className="text-sm font-semibold text-foreground">Expected Salary (Rp)</label>
                     <input 
                       required
                       type="number" 
@@ -252,7 +297,7 @@ export default function CandidatesPage() {
                       onChange={handleInputChange}
                       min="0"
                       className="w-full p-2.5 rounded-xl border border-border bg-transparent outline-none focus:border-primary transition-colors text-sm"
-                      placeholder="90000"
+                      placeholder="9000000"
                     />
                   </div>
                 </div>
@@ -288,6 +333,113 @@ export default function CandidatesPage() {
                 className="flex items-center justify-center gap-2 px-6 py-2 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100 min-w-[120px]"
               >
                 {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Save Candidate"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Details Modal */}
+      {isDetailsModalOpen && selectedCandidate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-card w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-border flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between p-6 border-b border-border bg-secondary/30">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm text-lg">
+                  {(selectedCandidate.firstName || '?').charAt(0)}{(selectedCandidate.lastName || '').charAt(0)}
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">
+                    {selectedCandidate.firstName} {selectedCandidate.lastName}
+                  </h2>
+                  <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <FileText size={14} /> Profile details
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsDetailsModalOpen(false)}
+                className="p-2 hover:bg-secondary rounded-full transition-colors"
+              >
+                <X size={20} className="text-muted-foreground" />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto custom-scrollbar space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2 border-b border-border pb-2">
+                    <Users size={16} /> Contact Information
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-secondary rounded-lg text-muted-foreground mt-0.5"><Mail size={16} /></div>
+                      <div>
+                        <p className="text-xs text-muted-foreground font-medium">Email Address</p>
+                        <p className="text-sm font-medium text-foreground">{selectedCandidate.email}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-secondary rounded-lg text-muted-foreground mt-0.5"><Phone size={16} /></div>
+                      <div>
+                        <p className="text-xs text-muted-foreground font-medium">Phone Number</p>
+                        <p className="text-sm font-medium text-foreground">{selectedCandidate.phoneNumber || 'Not provided'}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2 border-b border-border pb-2">
+                    <Building size={16} /> Professional Details
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-secondary rounded-lg text-muted-foreground mt-0.5"><DollarSign size={16} /></div>
+                      <div>
+                        <p className="text-xs text-muted-foreground font-medium">Expected Salary</p>
+                        <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                          Rp {(selectedCandidate.expectedSalary || 0).toLocaleString('id-ID')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2 border-b border-border pb-2">
+                  <Code size={16} /> Extracted Skills
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedCandidate.parsedSkills ? (
+                    selectedCandidate.parsedSkills.split(',').map((skill, index) => (
+                      <span key={index} className="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-medium border border-primary/20">
+                        {skill.trim()}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic">No skills extracted from resume.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between p-6 border-t border-border bg-secondary/30 mt-auto">
+              <button 
+                onClick={handleDeleteCandidate}
+                disabled={isDeleting}
+                className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl transition-colors font-medium disabled:opacity-50"
+              >
+                {isDeleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                <span>Delete Candidate</span>
+              </button>
+              
+              <button 
+                onClick={() => setIsDetailsModalOpen(false)}
+                className="px-6 py-2 bg-foreground text-background font-bold rounded-xl hover:bg-foreground/90 transition-all active:scale-95"
+              >
+                Close
               </button>
             </div>
           </div>

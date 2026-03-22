@@ -6,8 +6,6 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\AiRecruitment.API.runtimeconfig.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\AiRecruitment.API.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\AiRecruitment.API.pdb
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Azure.AI.OpenAI.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Azure.Core.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\FluentValidation.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Humanizer.dll
@@ -46,12 +44,10 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Microsoft.OpenApi.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Mono.TextTemplating.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\MySqlConnector.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\OpenAI.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.ClientModel.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.CodeDom.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.Composition.Convention.dll
@@ -60,7 +56,11 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.Composition.TypedParts.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.Diagnostics.DiagnosticSource.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\System.Memory.Data.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Core.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Fonts.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Tokenization.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Tokens.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -140,6 +140,7 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.csproj.CoreCompileInputs.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.MvcApplicationPartsAssemblyInfo.cs
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.MvcApplicationPartsAssemblyInfo.cache
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.sourcelink.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\rjimswa.dswa.cache.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -155,8 +156,3 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.pdb
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.genruntimeconfig.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\ref\AiRecruitment.API.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Core.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Fonts.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Tokenization.dll
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\UglyToad.PdfPig.Tokens.dll

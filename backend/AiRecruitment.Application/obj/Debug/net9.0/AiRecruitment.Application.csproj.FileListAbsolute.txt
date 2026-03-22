@@ -8,6 +8,7 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecruitment.Application.AssemblyInfoInputs.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecruitment.Application.AssemblyInfo.cs
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecruitment.Application.csproj.CoreCompileInputs.cache
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecruitment.Application.sourcelink.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecrui.B8F5AD17.Up2Date
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\AiRecruitment.Application.dll
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.Application\obj\Debug\net9.0\refint\AiRecruitment.Application.dll

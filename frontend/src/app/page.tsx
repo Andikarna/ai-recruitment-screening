@@ -13,8 +13,10 @@ import {
 import { CandidateService } from "@/services/candidateService";
 import { JobService } from "@/services/jobService";
 import { ApplicationService, Application } from "@/services/applicationService";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter();
   const [stats, setStats] = useState([
     { label: "Total Candidates", value: "0", icon: Users, trend: "+0%", color: "text-blue-500", bg: "bg-blue-500/10" },
     { label: "Active Jobs", value: "0", icon: Briefcase, trend: "+0%", color: "text-purple-500", bg: "bg-purple-500/10" },
@@ -103,7 +105,12 @@ export default function Dashboard() {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-foreground">Recent Applications</h3>
-            <button className="text-sm font-medium text-primary hover:underline">View all</button>
+            <button 
+              onClick={() => router.push('/screening')}
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              View all
+            </button>
           </div>
           <div className="rounded-2xl border border-border bg-card overflow-hidden">
             <table className="w-full text-left">
@@ -153,7 +160,10 @@ export default function Dashboard() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button className="p-1 rounded-lg hover:bg-secondary transition-colors">
+                        <button 
+                          onClick={() => alert(`View details for application ${app.id}`)}
+                          className="p-1 rounded-lg hover:bg-secondary transition-colors"
+                        >
                           <MoreVertical size={18} className="text-muted-foreground" />
                         </button>
                       </td>
@@ -169,24 +179,30 @@ export default function Dashboard() {
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-foreground">Quick Actions</h3>
           <div className="grid grid-cols-1 gap-4">
-            <button className="flex items-center justify-between p-4 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all group">
+            <button 
+              onClick={() => router.push('/jobs')}
+              className="flex items-center justify-between p-4 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all group text-left"
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-primary text-white">
                   <Briefcase size={20} />
                 </div>
-                <div className="text-left">
+                <div>
                   <p className="font-bold text-foreground">Create Job</p>
                   <p className="text-xs text-muted-foreground">Post a new vacancy</p>
                 </div>
               </div>
               <ArrowUpRight size={18} className="text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </button>
-            <button className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card hover:bg-secondary transition-all group">
+            <button 
+              onClick={() => router.push('/candidates')}
+              className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card hover:bg-secondary transition-all group text-left"
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-accent text-white">
                   <Users size={20} />
                 </div>
-                <div className="text-left">
+                <div>
                   <p className="font-bold text-foreground">Add Candidate</p>
                   <p className="text-xs text-muted-foreground">Upload a new resume</p>
                 </div>

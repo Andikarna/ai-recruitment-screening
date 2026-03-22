@@ -7,6 +7,7 @@ export interface JobPosting {
   requirements: string;
   location: string;
   isActive: boolean;
+  candidatesCount?: number;
 }
 
 export const JobService = {
