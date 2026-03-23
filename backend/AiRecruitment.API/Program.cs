@@ -3,6 +3,11 @@ using AiRecruitment.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DotNetEnv;
+using System.IO;
+
+// Load secrets from the root backend .env file to prevent git tracking
+Env.Load(Path.Combine(Directory.GetCurrentDirectory(), "..", ".env"));
 
 var builder = WebApplication.CreateBuilder(args);
 
