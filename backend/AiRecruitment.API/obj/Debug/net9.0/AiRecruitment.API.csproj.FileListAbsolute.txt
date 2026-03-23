@@ -1,4 +1,3 @@
-E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\appsettings.Development.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\appsettings.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\AiRecruitment.API.staticwebassets.endpoints.json
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\AiRecruitment.API.exe
@@ -156,3 +155,5 @@ E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.pdb
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\AiRecruitment.API.genruntimeconfig.cache
 E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\obj\Debug\net9.0\ref\AiRecruitment.API.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\DotNetEnv.dll
+E:\Document\Visual Code\React JS\ai-screening-recruitment\backend\AiRecruitment.API\bin\Debug\net9.0\Sprache.dll

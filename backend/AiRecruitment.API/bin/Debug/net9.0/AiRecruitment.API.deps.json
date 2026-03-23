@@ -10,6 +10,7 @@
         "dependencies": {
           "AiRecruitment.Application": "1.0.0",
           "AiRecruitment.Infrastructure": "1.0.0",
+          "DotNetEnv": "3.1.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.2",
           "Microsoft.AspNetCore.OpenApi": "9.0.2",
           "Microsoft.EntityFrameworkCore.Design": "9.0.2",
@@ -17,6 +18,18 @@
         },
         "runtime": {
           "AiRecruitment.API.dll": {}
+        }
+      },
+      "DotNetEnv/3.1.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.2",
+          "Sprache": "2.3.1"
+        },
+        "runtime": {
+          "lib/netstandard1.3/DotNetEnv.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
         }
       },
       "FluentValidation/12.1.1": {
@@ -648,6 +661,14 @@
           }
         }
       },
+      "Sprache/2.3.1": {
+        "runtime": {
+          "lib/netstandard2.1/Sprache.dll": {
+            "assemblyVersion": "2.3.1.0",
+            "fileVersion": "2.3.1.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/7.3.1": {
         "dependencies": {
           "Swashbuckle.AspNetCore.Swagger": "7.3.1",
@@ -872,6 +893,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "DotNetEnv/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-o4SqUVCq0pqHF/HYsZk6k22XGIVmvsDVo+Dy7l0ubq9uQ45JkXswrMRJmYvhGLXWFYF0M5OupMonytB+0zvpGQ==",
+      "path": "dotnetenv/3.1.1",
+      "hashPath": "dotnetenv.3.1.1.nupkg.sha512"
     },
     "FluentValidation/12.1.1": {
       "type": "package",
@@ -1138,6 +1166,13 @@
       "sha512": "sha512-Gf1L9hdJFW3zPw1CWqgkBLLxySAPzRKeWXFwm7YFxzgPQvM4ISkR8ZFGlVYWAxfd0oYxnXRulu+WVgt0jdHQ5Q==",
       "path": "pomelo.entityframeworkcore.mysql/9.0.0-preview.2.efcore.9.0.0",
       "hashPath": "pomelo.entityframeworkcore.mysql.9.0.0-preview.2.efcore.9.0.0.nupkg.sha512"
+    },
+    "Sprache/2.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Q+mXeiTxiUYG3lKYF6TS82/SyB4F2613Q1yXTMwg4jWGHEEVC3yrzHtNcI4B3qnDI0+eJsezGJ0V+cToUytHWw==",
+      "path": "sprache/2.3.1",
+      "hashPath": "sprache.2.3.1.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/7.3.1": {
       "type": "package",

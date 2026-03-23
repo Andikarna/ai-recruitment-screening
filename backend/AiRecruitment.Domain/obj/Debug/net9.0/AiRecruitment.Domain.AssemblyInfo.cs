@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AiRecruitment.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be044311aef1d410751666bebadbefb9a0248ed9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb9aeb25ec9b7e00ba601e46a60b0bac4b2eff2e")]
 [assembly: System.Reflection.AssemblyProductAttribute("AiRecruitment.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AiRecruitment.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
