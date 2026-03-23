@@ -12,11 +12,13 @@ public class ScreeningController : ControllerBase
 {
     private readonly IAIScreeningService _screeningService;
     private readonly IResumeParserService _resumeParser;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ScreeningController(IAIScreeningService screeningService, IResumeParserService resumeParser)
+    public ScreeningController(IAIScreeningService screeningService, IResumeParserService resumeParser, IUnitOfWork unitOfWork)
     {
         _screeningService = screeningService;
         _resumeParser = resumeParser;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet("screen/{candidateId}")]
@@ -38,8 +40,18 @@ public class ScreeningController : ControllerBase
         try
         {
             using var stream = file.OpenReadStream();
-            var extractedText = await _resumeParser.ExtractTextAsync(stream, file.FileName);
-            var result = await _screeningService.ScreenCvAsync(extractedText, file.FileName, jobId);
+            
+            // Format raw PDF to DB Candidate
+            var candidate = await _resumeParser.ParseResumeAsync(stream, file.FileName);
+            candidate.ResumeUrl = file.FileName;
+            
+            // Save candidate to properly issue an ID
+            await _unitOfWork.Candidates.AddAsync(candidate);
+            await _unitOfWork.CompleteAsync();
+
+            // Run normal screening workflow using the guaranteed valid DB candidate
+            var result = await _screeningService.ScreenCandidateAsync(candidate.Id, jobId);
+            
             return Ok(result);
         }
         catch (Exception ex)

@@ -28,15 +28,15 @@
   --color-ring: var(--ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617;
-    --foreground: #f8fafc;
-    --primary: #6366f1;
-    --secondary: #1e293b;
-    --card: #0f172a;
-    --border: #1e293b;
-  }
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root.dark {
+  --background: #020617;
+  --foreground: #f8fafc;
+  --primary: #6366f1;
+  --secondary: #1e293b;
+  --card: #0f172a;
+  --border: #1e293b;
 }
 
 body {
