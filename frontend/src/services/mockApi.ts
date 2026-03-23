@@ -26,7 +26,7 @@ const DUMMY_APPLICATIONS = [
 
 // --- CUSTOM SCREENING LOGIC ---
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || 'AIzaSyDgIQBAbUo90By6st7AOpLRLQG41pIgEQo';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
 
 // Mocks the screening endpoint: /screening/screen/{candidateId}?jobId={jobId}
 // It now directly calls the Gemini LLM instead of random numbers, replicating backend logic
@@ -132,6 +132,131 @@ Expected Salary: ${candidate.expectedSalary}
   };
 };
 
+// Mocks the CV file upload screening endpoint: /screening/upload-and-screen
+const performLLMCvScreening = async (file: File, jobId: string) => {
+  const job = DUMMY_JOBS.find(j => j.id === jobId);
+
+  if (!job) {
+    return {
+      candidateId: "unknown",
+      candidateName: `Uploaded CV: ${file.name}`,
+      overallScore: 0,
+      skillMatches: [],
+      summary: "Job not found. Could not perform mock CV screening."
+    };
+  }
+
+  const systemPrompt = `You are an expert technical AI recruiter evaluating a candidate for a job position. 
+Analyze the candidate's skills and profile against the job requirements based on the provided CV document.
+IMPORTANT: You MUST evaluate 'related' or 'transferable' skills and experiences favorably! 
+Do not just look for exact string matches. If a candidate has a highly related skill that serves the same purpose or shows capability, consider it a match (relevance score close to 1.0). 
+If they have related roles/positions, grant them higher overall scores and acknowledge their transferable capabilities as 'opportunities'.
+
+Respond EXCLUSIVELY in the following JSON format without any markdown formatting wrappers:
+{
+  "OverallScore": 85.5,
+  "SkillMatches": [
+    {
+      "SkillName": "React",
+      "IsMatched": true,
+      "RelevanceScore": 1.0
+    }
+  ],
+  "Summary": "A concise explanation of why this candidate is a good/bad match, highlighting transferable skills."
+}`;
+
+  const userPrompt = `
+Job Title: ${job.title}
+Job Description: ${job.description}
+Job Requirements: ${job.requirements}
+
+Candidate CV Content is attached to this request.
+`;
+
+  try {
+    const fileToBase64 = (f: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(f);
+        reader.onload = () => {
+          const result = reader.result as string;
+          resolve(result.split(',')[1]);
+        };
+        reader.onerror = error => reject(error);
+      });
+    };
+
+    const base64Data = await fileToBase64(file);
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system_instruction: { parts: { text: systemPrompt } },
+        contents: [{ 
+          role: "user", 
+          parts: [
+            { text: userPrompt },
+            {
+              inline_data: {
+                mime_type: file.type || "application/pdf",
+                data: base64Data
+              }
+            }
+          ] 
+        }],
+        generationConfig: { response_mime_type: "application/json" }
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const textResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (textResponse) {
+        const cleanJson = textResponse.replace(/^```json\s*/, '').replace(/```\s*$/, '').trim();
+        const parsed = JSON.parse(cleanJson);
+        
+        return {
+          candidateId: Math.random().toString(),
+          candidateName: `Uploaded CV: ${file.name}`,
+          overallScore: parsed.OverallScore || parsed.overallScore || 0,
+          skillMatches: (parsed.SkillMatches || parsed.skillMatches || []).map((sm: any) => ({
+            skillName: sm.SkillName || sm.skillName,
+            isMatched: sm.IsMatched || sm.isMatched,
+            relevanceScore: sm.RelevanceScore || sm.relevanceScore
+          })),
+          summary: `(Direct Frontend CV LLM) ${parsed.Summary || parsed.summary}`
+        };
+      }
+    } else {
+      console.error("Gemini API error", await response.text());
+    }
+  } catch (err) {
+    console.error("Direct frontend Gemini LLM CV call failed, falling back to basic mock.", err);
+  }
+
+  // Fallback naive logic
+  const overallScore = Math.floor(Math.random() * 40) + 60;
+  const requiredSkills = job.requirements.split(',').map(s => s.trim());
+  
+  const skillMatches = requiredSkills.map(reqSkill => {
+    const isMatched = Math.random() > 0.5;
+    return {
+      skillName: reqSkill,
+      isMatched,
+      relevanceScore: isMatched ? Math.floor(Math.random() * 20) + 80 : Math.floor(Math.random() * 30) + 20
+    };
+  });
+
+  return {
+    candidateId: Math.random().toString(),
+    candidateName: `Uploaded CV: ${file.name}`,
+    overallScore,
+    skillMatches,
+    summary: `(Mock CV Fallback) The LLM prompt failed to parse the uploaded file ${file.name}.`
+  };
+};
+
 export const mockAdapter = async (config: InternalAxiosRequestConfig): Promise<any> => {
   const { url, method, data } = config;
 
@@ -215,8 +340,14 @@ export const mockAdapter = async (config: InternalAxiosRequestConfig): Promise<a
         // Handle FormData mocked submission
         const formData = data as any;
         let jobId = '1';
+        let file = null;
         if (formData && typeof formData.get === 'function') {
            jobId = formData.get('jobId') || '1';
+           file = formData.get('file');
+        }
+
+        if (file instanceof File) {
+          return formatResponse(await performLLMCvScreening(file, jobId));
         }
 
         // Just use random mock screening result 
@@ -228,7 +359,7 @@ export const mockAdapter = async (config: InternalAxiosRequestConfig): Promise<a
           skillMatches: [
             { skillName: "Communication", isMatched: true, relevanceScore: 80 }
           ],
-          summary: "(Mock Data) Fast local screening of uploaded CV."
+          summary: "(Mock Data) Fast local screening of uploaded CV failed because file format was invalid."
         });
       }
     }
