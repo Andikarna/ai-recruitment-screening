@@ -1,0 +1,16 @@
+# .NET Core
+bin/
+obj/
+appsettings.Development.json
+appsettings.Local.json
+
+# Next.js / Node
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
